@@ -5,16 +5,14 @@ import heroImg from './assets/hero.png'
 import Navbar from './Navbar/Navbar'
 import CreatePost from './Navbar/CreatePost'
 import { Provider } from 'react-redux'
-import { store } from './app/Store'
+
 
 function App() {
 
 
   return (
-    <Provider store={store}>
-       <Navbar/>
-    <CreatePost/>
-    </Provider>
+    <>
+    </>
   )
 }
 

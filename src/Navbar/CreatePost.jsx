@@ -21,8 +21,10 @@ const CreatePost = () => {
     }
     return (
         
+<div className='min-h-screen w-full bg-gradient-to-b from-[#A5D8FF] via-[#D1E9FF] to-[#FFFFFF] pt-10 md:pt-20'>
 
-<form className="max-w-md mx-auto mt-20" onSubmit={submitHandler}>
+    
+<form className="w-1/2 md:max-w-md mx-auto" onSubmit={submitHandler}>
     <h2 className='text-blue-500 font-semibold'>| Add Data</h2>
   <div className="relative z-0 w-full mb-5 group mt-4">
       <input type="text" name="name" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder="" required value={user.name} onChange={changeHandler}/>
@@ -50,6 +52,7 @@ const CreatePost = () => {
   
   <button type="submit" className="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none bg-blue-500 mt-4">Submit</button>
 </form>
+</div>
 
     );
 };
