@@ -1,7 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { searchData } from '../feature/userDetails'
 import { useEffect, useState } from 'react'
 
@@ -15,7 +15,7 @@ export default function Navbar() {
   useEffect(()=>{
   dispatch(searchData(searchInput))
   },[searchInput])
- 
+  const location=useLocation()
   const posts=useSelector(state=>state.user)
   const navigation = [
   { name: 'Create Post', href: '/'},
@@ -53,9 +53,9 @@ export default function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <div>
+                {location.pathname==="/all-posts" && <div>
                   <input type="search" name="" id="" className='bg-white w-full' placeholder="Search By Name ..." onChange={(e)=>setSearchInput(e.target.value)}/>
-                </div>
+                </div>}
               </div>
             </div>
           </div>
@@ -84,6 +84,9 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
+          {location.pathname==="/all-posts" && <div className='w-full flex'>
+            <input type="search" name="" id="" className='bg-white w-1/2 md:w-full mx-auto' placeholder="Search By Name ..." onChange={(e)=>setSearchInput(e.target.value)}/>
+          </div>}
         </div>
       </DisclosurePanel>
     </Disclosure>
