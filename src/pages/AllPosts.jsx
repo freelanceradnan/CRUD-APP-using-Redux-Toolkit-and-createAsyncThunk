@@ -22,16 +22,16 @@ const AllPosts = () => {
     if(isError){
         return <h2 className='text-2xl text-center flex items-center justify-center'>failed to fetch!</h2>
     }
-   const filteredData = data && data
-        .filter((ele) => {
-            if (searchData.length === 0) return ele;
-            return ele.name.toLowerCase().includes(searchData.toLowerCase());
-        })
-        .filter((ele) => {
-            if (radioData === "male") return ele.gender === "male";
-            if (radioData === "female") return ele.gender === "female";
-            return ele;
-        });
+   const filteredData = Array.isArray(data) ? data
+    .filter((ele) => {
+        if (!searchData || searchData.length === 0) return ele;
+        return ele?.name?.toLowerCase().includes(searchData.toLowerCase());
+    })
+    .filter((ele) => {
+        if (radioData === "male") return ele.gender === "male";
+        if (radioData === "female") return ele.gender === "female";
+        return ele;
+    }) : [];
     return (
 <>
 <div className='bg-slate-50 max-w-full pt-4 min-h-screen'>
@@ -74,10 +74,9 @@ const AllPosts = () => {
         </div>
 ))
 :
-<div className='text-center mt-10'>
-                    <h2 className='text-xl text-gray-500 font-semibold text-red-500'>No Data Found on {radioData?radioData:<h2>Database</h2>}!</h2>
-                    <p className='text-gray-400'>Try changing your search or filter settings.</p>
-                </div>
+<h2 className='text-xl text-red-500 font-semibold uppercase'>
+    No Data Found {radioData ? `for ${radioData}` : "in Database"}!
+</h2>
 }
 </div>
 </>

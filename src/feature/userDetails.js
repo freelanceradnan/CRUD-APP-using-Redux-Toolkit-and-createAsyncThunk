@@ -1,22 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //create action
-export const createUser=createAsyncThunk("createUser",async(data)=>{
-   const response=await fetch(`https://69c002a272ca04f3bcba4ccc.mockapi.io/userDetails/crud`,{
-    method:"POST",
-    headers:{
-        "Content-type":"application/json"
-    },
-    body:JSON.stringify(data)
-   })
-   try{
-   const result=await response.json()
-   return result
-   }
-   catch(error){
- console.log(error.message)
-   }
-})
+export const createUser = createAsyncThunk("createUser", async (data, { rejectWithValue }) => {
+  const response = await fetch(`https://69c002a272ca04f3bcba4ccc.mockapi.io/userDetails/crud`, {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  try {
+    if (!response.ok) throw new Error("Server Error!");
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
 //getposts action
 export const getUser=createAsyncThunk("getUser",async (_, { rejectWithValue })=>{
   
@@ -69,7 +68,7 @@ export const userDetailsSlice=createSlice({
         data:[],
         isError:false,
         error:"",
-        searchData:[]
+        searchData:""
     },
     reducers:{
       searchData:(state,action)=>{
@@ -86,7 +85,7 @@ export const userDetailsSlice=createSlice({
       })
       .addCase(createUser.fulfilled, (state, action) => {
         state.isLoading=false,
-        state.data=action.payload
+        state.data.push(action.payload);
       })
       .addCase(createUser.rejected, (state, action) => {
         state.isLoading=false,
