@@ -1,14 +1,21 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router'
-
+import { searchData } from '../feature/userDetails'
+import { useEffect, useState } from 'react'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
+  const dispatch=useDispatch()
+  const [searchInput,setSearchInput]=useState("")
+  useEffect(()=>{
+  dispatch(searchData(searchInput))
+  },[searchInput])
+ 
   const posts=useSelector(state=>state.user)
   const navigation = [
   { name: 'Create Post', href: '/'},
@@ -47,7 +54,7 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <div>
-                  <input type="search" name="" id="" className='bg-white'/>
+                  <input type="search" name="" id="" className='bg-white w-full' placeholder="Search By Name ..." onChange={(e)=>setSearchInput(e.target.value)}/>
                 </div>
               </div>
             </div>

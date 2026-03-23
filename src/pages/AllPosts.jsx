@@ -9,7 +9,7 @@ const AllPosts = () => {
    
     const [showModal,setShowModal]=useState(false)
     const [id,setId]=useState()
-    const {isError,isLoading,error,data}=useSelector(state=>state.user)
+    const {isError,isLoading,error,data,searchData}=useSelector(state=>state.user)
     const dispatch=useDispatch()
     useEffect(()=>{
     dispatch(getUser())
@@ -24,7 +24,15 @@ const AllPosts = () => {
 <>
 <div className='bg-slate-50 max-w-full pt-4 min-h-screen'>
     {showModal && <ViewPostModal id={id} showModal={showModal} setShowModal={setShowModal}/>}
-    {data.length>0?data?.map((ele)=>(
+    {data&& 
+     data.filter((ele)=>{
+        if(searchData.length===0){
+            return ele
+        }
+        else{
+            return ele.name.toLowerCase().includes(searchData.toLowerCase())
+        }
+     }).map((ele)=>(
             <div className='py-2' key={ele.id}>
             
 
@@ -41,8 +49,8 @@ const AllPosts = () => {
 </div>
 
         </div>
-)):
-<h2>faild to fetch data</h2>
+))
+
 }
 </div>
 </>

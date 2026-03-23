@@ -68,7 +68,15 @@ export const userDetailsSlice=createSlice({
         isLoading:false,
         data:[],
         isError:false,
-        error:""
+        error:"",
+        searchData:[]
+    },
+    reducers:{
+      searchData:(state,action)=>{
+       
+        state.searchData=action.payload
+        
+      }
     },
     extraReducers:(builder)=>{
         builder
@@ -133,4 +141,5 @@ export const userDetailsSlice=createSlice({
       })
     }
 })
+export const {searchData}=userDetailsSlice.actions
 export const {isError,isLoading,error,data}=userDetailsSlice
