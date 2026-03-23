@@ -1,8 +1,9 @@
 import {Eye,Pencil,Trash} from 'lucide-react'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../feature/userDetails';
-import ViewPostModal from '../Navbar/viewPostModal';
+import { deleteUser, getUser } from '../feature/userDetails';
+import ViewPostModal from '../Components/viewPostModal';
+import { Link } from 'react-router';
 
 const AllPosts = () => {
    
@@ -34,8 +35,8 @@ const AllPosts = () => {
     <p className="text-body mb-2">Age:{ele.age}</p>
     <div className='flex items-center justify-center gap-3'>
     <button className='p-1 bg-blue-500 rounded-sm flex items-center justify-center gap-2 text-white' onClick={()=>[setId(ele.id),setShowModal(true)]}><Eye size={15}/>view</button>
-   <button className='p-1 bg-blue-500 rounded-sm flex items-center justify-center gap-2 text-white'><Pencil size={15}/>edit</button>
-   <button className='p-1 bg-blue-500 rounded-sm flex items-center justify-center gap-2 text-white'><Trash size={15}/>delete</button>
+   <Link to={`/edit/${ele.id}`}><button className='p-1 bg-blue-500 rounded-sm flex items-center justify-center gap-2 text-white'><Pencil size={15}/>Edit</button></Link>
+   <button className='p-1 bg-blue-500 rounded-sm flex items-center justify-center gap-2 text-white' onClick={()=>dispatch(deleteUser(ele.id))}><Trash size={15}/>delete</button>
     </div>
 </div>
 

@@ -32,6 +32,36 @@ export const getUser=createAsyncThunk("getUser",async (_, { rejectWithValue })=>
     return rejectWithValue(error.message);
   }
 })
+//delete action
+export const deleteUser=createAsyncThunk("deleteUser",async(id,{rejectWithValue})=>{
+   const response=await fetch(`https://69c002a272ca04f3bcba4ccc.mockapi.io/userDetails/crud/${id}`,{
+    method:"DELETE"
+   })
+   try{
+   const result=await response.json()
+   return result
+   }
+   catch(error){
+   return rejectWithValue(error.message)
+   }
+})
+//update action
+export const updateUser=createAsyncThunk("updateUser",async(data)=>{
+   const response=await fetch(`https://69c002a272ca04f3bcba4ccc.mockapi.io/userDetails/crud/${data.id}`,{
+    method:"PUT",
+    headers:{
+        "Content-type":"application/json"
+    },
+    body:JSON.stringify(data)
+   })
+   try{
+   const result=await response.json()
+   return result
+   }
+   catch(error){
+ console.log(error.message)
+   }
+})
 export const userDetailsSlice=createSlice({
     name:'userDetails',
     initialState:{
@@ -67,6 +97,39 @@ export const userDetailsSlice=createSlice({
         state.isLoading=false,
         state.isError=true,
         state.error=action.payload
+      })
+      .addCase(deleteUser.pending, (state, action) => {
+        state.isLoading=true,
+        state.isError=false
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.isLoading=false;
+        const {id}=action.payload
+        if(id){
+          state.data=state.data.filter(ele=>ele.id!==id)
+        }
+        
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading=false,
+        state.isError=true,
+        state.error=action.payload
+      })
+      .addCase(updateUser.pending, (state, action) => {
+        state.isLoading=true,
+        state.isError=false
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading=false
+        state.data=state.data.map((ele)=>
+          ele.id===action.payload.id? action.payload:ele
+        )
+        
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading=false,
+        state.isError=true,
+        state.error=action.payload.error||"failed to fetch"
       })
     }
 })
